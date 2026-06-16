@@ -9,7 +9,7 @@ void PWM_Init(void)
 	//
 	// 配置GPIO口
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU ;
+	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_AF_PP ;// 使用复用推挽输出
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0  ;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz ;
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
@@ -26,7 +26,17 @@ void PWM_Init(void)
 	TIM_TimBaseInitSturcture.TIM_RepetitionCounter= 0;
 	TIM_TimeBaseInit(TIM2,&TIM_TimBaseInitSturcture);
 	
-	//因为 stm32硬件会自动进行一次触发中断 所以需要加上清除中断标志位  然后进行正常的中断
-	TIM_ClearFlag(TIM2,TIM_FLAG_Update);
+	//启动定时器
+	TIM_Cmd(TIM2,ENABLE);
+	//配置CCR寄存器
+	
+	TIM_OCInitTypeDef TIM_OCInitStructure;
+	
+	TIM_OCStructInit(&TIM_OCInitStructure);  //用于初始化OCInit
+	TIM_OCInitStructure.TIM_OCMode =TIM_OCMode_PWM1 ;
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable ;
+	TIM_OCInitStructure.TIM_Pulse = ;     //CCR
+	TIM_OC1Init(TIM2,&TIM_OCInitStructure);
 	
 }
