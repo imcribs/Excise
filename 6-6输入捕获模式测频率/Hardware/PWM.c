@@ -1,16 +1,11 @@
 #include "stm32f10x.h"                  // Device header
-
+//顺序1 . 
 //配置定时中断
 void PWM_Init(void)
 {
 	//使能
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);  ///开启定时器
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);  //使能GPIO
-	
-	//重映射
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);    //使能AFIO
-//	GPIO_PinRemapConfig(GPIO_PartialRemap1_TIM2 ,ENABLE);   //将引脚重映射
-//	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);  //将JTAG引脚失能，作为普通的GPIO引脚使用
 	
 	// 配置GPIO口
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -26,8 +21,8 @@ void PWM_Init(void)
 	TIM_TimeBaseInitTypeDef TIM_TimBaseInitSturcture;
 	TIM_TimBaseInitSturcture.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimBaseInitSturcture.TIM_CounterMode= TIM_CounterMode_Up;
-	TIM_TimBaseInitSturcture.TIM_Period= 100 - 1;
-	TIM_TimBaseInitSturcture.TIM_Prescaler=720 - 1 ;
+	TIM_TimBaseInitSturcture.TIM_Period= 100 - 1;     //ARR
+	TIM_TimBaseInitSturcture.TIM_Prescaler=720 - 1 ;   //PSC
 	TIM_TimBaseInitSturcture.TIM_RepetitionCounter= 0;
 	TIM_TimeBaseInit(TIM2,&TIM_TimBaseInitSturcture);
 
@@ -52,5 +47,9 @@ void PWM_SetCompare1(uint16_t Compare1)
 	TIM_SetCompare1(TIM2,Compare1);    //设置CCR1的值
 }
 
+void PWM_SetPscaler(uint16_t Prescaler)
+{
+	TIM_PrescalerConfig(TIM2,Prescaler,TIM_PSCReloadMode_Immediate);
+}
 
 

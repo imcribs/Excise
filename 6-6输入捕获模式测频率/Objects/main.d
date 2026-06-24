@@ -31,3 +31,4 @@
 .\objects\main.o: .\Systerm\Delay.h
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\Hardware\PWM.h
+.\objects\main.o: .\Hardware\IC.h

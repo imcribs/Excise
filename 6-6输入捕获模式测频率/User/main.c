@@ -2,6 +2,7 @@
 #include "Delay.h"
 #include "OLED.h"
 #include "PWM.h"
+#include "IC.h"
 
 uint16_t i;
 
@@ -9,21 +10,17 @@ int main(void)
 {
 	OLED_Init();
 	
-	OLED_ShowString(1,3,"Hello World");
-	
 	PWM_Init();
+	
+	IC_Init();
+	
+	OLED_ShowString(1,1,"Freq:00000Hz");
+	
+	PWM_SetPscaler(720 - 1);     //Freq = 72M / (PSC +1) / 100
+	PWM_SetCompare1(50);        //Duty =  CCR /100
 	
 	while(1)
     {
-        for(i=0;i<=100;i++)
-			{
-			PWM_SetCompare1(i);    //依次把定时器的CCR寄存器设置为1-100，PWM占空比以此增大
-				Delay_ms(10);
-			}
-        for(i=0;i<=100;i++)
-			{
-			PWM_SetCompare1(100-i);   //相反
-				Delay_ms(10);
-			}
+        OLED_ShowNum(1,6,IC_GetFreq(),5);
     }
 }
