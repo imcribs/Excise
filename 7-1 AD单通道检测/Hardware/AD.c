@@ -1,6 +1,6 @@
 #include "stm32f10x.h"                  // Device header
  
-void AD_Init()
+void AD_Init(void)
 {
 	//开启时钟
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);
@@ -16,7 +16,7 @@ void AD_Init()
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
 	
 	//选择规则组的输入通道
-	ADC_RegularChannelConfig(ADC10,ADC_Channel_0,1,ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_55Cycles5);
 	
 	//结构体初始化ADC
 	
@@ -37,10 +37,20 @@ void AD_Init()
 	//复位校准
 	ADC_ResetCalibration(ADC1);
 	//等待复位校准完成
-	while( ADC_GetResetCalibrationStatus(ADC1) == SET)；//因为单片机执行完复位校准函数后，
+	while( ADC_GetResetCalibrationStatus(ADC1) == SET);//因为单片机执行完复位校准函数后，
 	//会立即执行下一条代码，所以要加上while循环，等复位完成后再执行下面的函数
 	//开始校准
 	ADC_StartCalibration(ADC1);
 	//等待校准完成
 	while(ADC_GetCalibrationStatus(ADC1) == SET);
 }
+//获取AD值
+uint16_t AD_GetValue(void)
+{
+	//将ADC配置为软件触发模式
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	while (ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) == RESET);
+	return ADC_GetConversionValue(ADC1);
+}
+
+
