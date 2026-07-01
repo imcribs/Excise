@@ -11,12 +11,11 @@ void AD_Init(void)
 	//配置GPIO
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_AIN;
-	GPIO_InitStructure.GPIO_Pin= GPIO_Pin_0;
+	GPIO_InitStructure.GPIO_Pin= GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed= GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
 	
-	//选择规则组的输入通道
-	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_55Cycles5);
+	
 	
 	//结构体初始化ADC
 	
@@ -29,32 +28,29 @@ void AD_Init(void)
 	ADC_InitStructure.ADC_ScanConvMode =  DISABLE;
 	ADC_Init(ADC1,&ADC_InitStructure);
 	
-	//开启ADC电源
+	
 	ADC_Cmd(ADC1,ENABLE);
 	
-	////对ADC进行校准
 	
-	//复位校准
 	ADC_ResetCalibration(ADC1);
-	//等待复位校准完成
-	while( ADC_GetResetCalibrationStatus(ADC1) == SET);//因为单片机执行完复位校准函数后，
-	//会立即执行下一条代码，所以要加上while循环，等复位完成后再执行下面的函数
-	//开始校准
+	
+	while( ADC_GetResetCalibrationStatus(ADC1) == SET);
+	
 	ADC_StartCalibration(ADC1);
-	//等待校准完成
+
 	while(ADC_GetCalibrationStatus(ADC1) == SET);
 	
 	
 	
-	//连续转换开启后，放到最后声明就可以实现，单通道连续转换，非扫描模式
-//	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	
 }
-//获取AD值
-uint16_t AD_GetValue(void)
+
+uint16_t AD_GetValue(uint8_t ADC_Channel)
 {
-	//将ADC配置为软件触发模式
+	
+	//选择规则组的输入通道
+	ADC_RegularChannelConfig(ADC1,ADC_Channel,1,ADC_SampleTime_55Cycles5);
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-//在单通道连续转换、非扫描的模式下，不需要再对标志位进行判断了，因为会对所需端口进行连续扫描
 	while (ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) == RESET);
 	return ADC_GetConversionValue(ADC1);
 }
