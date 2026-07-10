@@ -7,5 +7,6 @@ void Serial_SendArray(uint16_t *Array,uint16_t Length) ;
 void Serial_SendString(char *String);
 void Serial_Pow(uint32_t X,uint32_t Y);
 void Serial_SendNumber(uint32_t Number, uint8_t Length);
+void Serial_printf(char *format,...);
 
 #endif

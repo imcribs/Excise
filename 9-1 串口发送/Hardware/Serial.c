@@ -1,5 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "stdio.h"
+#include "stdarg.h"
 
 void Serial_Init(void)
 {
@@ -83,4 +84,12 @@ int fputc(int ch, FILE *f)
 	Serial_SendByte(ch);
 	return ch;
 }
-
+void Serial_printf(char *format,...)
+{
+	char String[100];
+	va_list arg;
+	va_start(arg,format);
+	vsprintf(String,format,arg);
+	va_end(arg);
+	Serial_SendString(String);
+}
