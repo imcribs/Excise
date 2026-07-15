@@ -849,8 +849,8 @@ Image Symbol Table
     .data                                    0x20000000   Section       20  stm32f10x_rcc.o(.data)
     ADCPrescTable                            0x20000000   Data           4  stm32f10x_rcc.o(.data)
     APBAHBPrescTable                         0x20000004   Data          16  stm32f10x_rcc.o(.data)
-    .data                                    0x20000014   Section        1  main.o(.data)
-    .data                                    0x20000015   Section        2  serial.o(.data)
+    .data                                    0x20000014   Section        2  main.o(.data)
+    .data                                    0x20000016   Section        2  serial.o(.data)
     STACK                                    0x20000018   Section     1024  startup_stm32f10x_md.o(STACK)
 
     Global Symbols
@@ -972,9 +972,9 @@ Image Symbol Table
     OLED_F8x16                               0x08000a40   Data        1520  oled.o(.constdata)
     Region$$Table$$Base                      0x08001030   Number         0  anon$$obj.o(Region$$Table)
     Region$$Table$$Limit                     0x08001050   Number         0  anon$$obj.o(Region$$Table)
-    RXData                                   0x20000014   Data           1  main.o(.data)
-    Serial_RXData                            0x20000015   Data           1  serial.o(.data)
-    Serial_RXFlag                            0x20000016   Data           1  serial.o(.data)
+    RXData                                   0x20000014   Data           2  main.o(.data)
+    Serial_RXData                            0x20000016   Data           1  serial.o(.data)
+    Serial_RXFlag                            0x20000017   Data           1  serial.o(.data)
     __initial_sp                             0x20000418   Data           0  startup_stm32f10x_md.o(STACK)
 
 
@@ -1063,8 +1063,8 @@ Memory Map of the image
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x20000000   0x08001050   0x00000014   Data   RW         1821    .data               stm32f10x_rcc.o
-    0x20000014   0x08001064   0x00000001   Data   RW         3197    .data               main.o
-    0x20000015   0x08001065   0x00000002   Data   RW         3526    .data               serial.o
+    0x20000014   0x08001064   0x00000002   Data   RW         3197    .data               main.o
+    0x20000016   0x08001066   0x00000002   Data   RW         3526    .data               serial.o
 
 
     Execution Region ER_ZI (Exec base: 0x20000018, Load base: 0x08001068, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
@@ -1083,7 +1083,7 @@ Image component sizes
 
          0          0          0          0          0       4540   core_cm3.o
          0          0          0          0          0     201660   delay.o
-        64         12          0          1          0     218236   main.o
+        64         12          0          2          0     218236   main.o
        120         16          0          0          0       3107   misc.o
        820         26       1520          0          0       8014   oled.o
        304         32          0          2          0       3969   serial.o
@@ -1097,7 +1097,7 @@ Image component sizes
     ----------------------------------------------------------------------
       2298        146       1788         24       1024     498177   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         6          0          0          1          0          0   (incl. Padding)
+         6          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
