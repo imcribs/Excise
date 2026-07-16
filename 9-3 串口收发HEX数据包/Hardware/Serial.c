@@ -2,7 +2,8 @@
 #include "stdio.h"
 #include "stdarg.h"
 
-uint8_t Serial_RXData;
+uint8_t Serial_TxPacket[4];
+uint8_t Serial_RxPacket[4];
 uint8_t Serial_RXFlag;
 
 void Serial_Init(void)
@@ -59,7 +60,7 @@ void Serial_SendByte(uint8_t Byte)
 
 }
 
-void Serial_SendArray(uint16_t *Array,uint16_t Length)  //²»¿½±´Êı¾İ£¬¶øÖ»ÊÇ´«µİÒ»¸öµØÖ·£¬½ÚÊ¡ÄÚ´æ,·ÀÖ¹Õ»Òç³ö
+void Serial_SendArray(uint8_t *Array,uint16_t Length)  //²»¿½±´Êı¾İ£¬¶øÖ»ÊÇ´«µİÒ»¸öµØÖ·£¬½ÚÊ¡ÄÚ´æ,·ÀÖ¹Õ»Òç³ö
 {
 	uint16_t i;
 	for(i = 0;i < Length;i++)
@@ -122,17 +123,51 @@ uint8_t Serial_GetRXFlag(void)
 	}
 	return 0;
 }
-uint8_t Serial_GetRXData(void)
+
+void Serial_SendPacket(void)
 {
-	return Serial_RXData;
+	Serial_SendByte(0xFF);
+	Serial_SendArray(Serial_TxPacket,4);
+	Serial_SendByte(0xFE);
 }
 
 void USART1_IRQHandler(void)
 {
+		static uint8_t  RXState;
+		static uint8_t  cRXPacket;
 	if(USART_GetITStatus(USART1,USART_IT_RXNE) == SET)
 	{
-	Serial_RXData = USART_ReceiveData(USART1);
+	uint8_t RXData = USART_ReceiveData(USART1);
+	if(RXState == 0)
+	{
+		if(RXData == 0xFF)
+		{
+		RXState = 1;
+			
+		}
+	}
+	else if(RXState == 1)
+		{
+			Serial_RxPacket[cRXPacket] = RXData ;
+			cRXPacket ++;
+			if(cRXPacket>=4)
+			{
+			RXState = 2;
+				cRXPacket = 0;     //åœ¨ifè¯­å¥é‡Œé¢åˆ™æ˜¯åœ¨cRXPacketå¤§äºç­‰äº4çš„æ—¶å€™ï¼Œç»™cRXPacketæ¸…é›¶ï¼Œä½†åœ¨ä¹‹å‰å·²ç»æŠŠæ•°æ®å­˜å‚¨åˆ°äº†HEXæ•°æ®åŒ…ä¸­ï¼Œå‘é€åˆ°äº†ä¸²å£
+			}
+			
+		}
+	else if(RXState == 2)
+			{
+				if(RXData == 0xFE)
+				{
+					RXState = 0;
+			
+				}
+			}
+		
 	Serial_RXFlag = 1;
+		
 	USART_ClearITPendingBit(USART1,USART_IT_RXNE);
 	}
 }

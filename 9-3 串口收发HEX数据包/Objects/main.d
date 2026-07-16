@@ -32,3 +32,4 @@
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\Hardware\Serial.h
 .\objects\main.o: D:\Keil5.35\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: .\Hardware\KEY.h
