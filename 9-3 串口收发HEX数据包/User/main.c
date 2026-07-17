@@ -11,7 +11,7 @@ int main(void)
 	
 	OLED_Init();
 	
-	KEY_Init();
+	Key_Init();
 	
 	Serial_Init();
 	
@@ -23,13 +23,14 @@ int main(void)
 	Serial_TxPacket[2] = 0x03;
 	Serial_TxPacket[3] = 0x04;
 	
+	
 
 	while(1)
     {
 			KeyNum = Key_GetNum();
 			if(KeyNum == 1)
 			{
-				Delay_ms(250);
+			
 			Serial_TxPacket[0] ++;
 			Serial_TxPacket[1] ++;
 			Serial_TxPacket[2] ++;
