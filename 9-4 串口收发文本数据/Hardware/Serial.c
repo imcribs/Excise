@@ -2,8 +2,9 @@
 #include "stdio.h"
 #include "stdarg.h"
 
-uint8_t Serial_TxPacket[4];
-uint8_t Serial_RxPacket[4];
+
+
+char Serial_RxPacket[100];
 uint8_t Serial_RXFlag;
 
 void Serial_Init(void)
@@ -125,12 +126,7 @@ uint8_t Serial_GetRXFlag(void)
 	return 0;
 }
 
-void Serial_SendPacket(void)
-{
-	Serial_SendByte(0xFF);
-	Serial_SendArray(Serial_TxPacket,4);
-	Serial_SendByte(0xFE);
-}
+
 
 void USART1_IRQHandler(void)
 {
@@ -141,7 +137,7 @@ void USART1_IRQHandler(void)
 	uint8_t RXData = USART_ReceiveData(USART1);
 	if(RXState == 0)
 	{
-		if(RXData == 0xFF)
+		if(RXData == '@')
 		{
 		RXState = 1;
 		cRXPacket = 0;
@@ -149,21 +145,23 @@ void USART1_IRQHandler(void)
 	}
 	else if(RXState == 1)
 		{
-			Serial_RxPacket[cRXPacket] = RXData ;
-			cRXPacket ++;
-			if(cRXPacket>=4)
+			if( RXData== '\r')
 			{
 			RXState = 2;
-				   //在if语句里面则是在cRXPacket大于等于4的时候，给cRXPacket清零，但在之前已经把数据存储到了HEX数据包中，发送到了串口
 			}
-			
+			else
+			{
+			Serial_RxPacket[cRXPacket] = RXData ;
+			cRXPacket ++;
+			}
 		}
 	else if(RXState == 2)
 			{
-				if(RXData == 0xFE)
+				if(RXData == '\n')
 				{
 					RXState = 0;
-			Serial_RXFlag = 1;
+					Serial_RxPacket[cRXPacket] = '\0';
+			Serial_RXFlag = 1; 
 				}
 			}
 		
