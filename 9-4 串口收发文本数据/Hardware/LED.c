@@ -13,39 +13,63 @@ void LED_Init(void) //初始化按键
 	GPIO_SetBits(GPIOA,GPIO_Pin_1|GPIO_Pin_2);
 }
 
-//void LED1_ON(void)   //RED LED
-//{
-//	GPIO_SetBits(GPIOA,GPIO_Pin_1);
-//}
-//void LED1_OFF(void)
-//{
-//	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
-//}
-
-//void LED2_ON(void)  //BLUE LED
-//{
-//	GPIO_SetBits(GPIOA,GPIO_Pin_2);
-//}
-//void LED2_OFF(void)
-//{
-//	GPIO_ResetBits(GPIOA,GPIO_Pin_2);
-//}
-
-
-
- //定义LED SET函数
-void LED_SET(LED_Index led,LED_State state)
+void LED1_ON(void)
 {
-	if(led==LED1)
+	GPIO_ResetBits(GPIOA, GPIO_Pin_1);
+}
+
+void LED1_OFF(void)
+{
+	GPIO_SetBits(GPIOA, GPIO_Pin_1);
+}
+
+void LED1_Turn(void)
+{
+	if (GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_1) == 0)
 	{
-	if(state==LED_ON){GPIO_SetBits(GPIOA,GPIO_Pin_1);}
-	else
-	{GPIO_ResetBits(GPIOA,GPIO_Pin_1);}	
+		GPIO_SetBits(GPIOA, GPIO_Pin_1);
 	}
 	else
 	{
-		if(state==LED_ON){GPIO_SetBits(GPIOA,GPIO_Pin_2);}
-	else
-	{GPIO_ResetBits(GPIOA,GPIO_Pin_2);}	
+		GPIO_ResetBits(GPIOA, GPIO_Pin_1);
 	}
 }
+
+void LED2_ON(void)
+{
+	GPIO_ResetBits(GPIOA, GPIO_Pin_2);
+}
+
+void LED2_OFF(void)
+{
+	GPIO_SetBits(GPIOA, GPIO_Pin_2);
+}
+
+void LED2_Turn(void)
+{
+	if (GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_2) == 0)
+	{
+		GPIO_SetBits(GPIOA, GPIO_Pin_2);
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOA, GPIO_Pin_2);
+	}
+}
+
+ //定义LED SET函数
+//void LED_SET(LED_Index led,LED_State state)
+//{
+//	if(led==LED1)
+//	{
+//	if(state==LED_ON){GPIO_SetBits(GPIOA,GPIO_Pin_1);}
+//	else
+//	{GPIO_ResetBits(GPIOA,GPIO_Pin_1);}	
+//	}
+//	else
+//	{
+//		if(state==LED_ON){GPIO_SetBits(GPIOA,GPIO_Pin_2);}
+//	else
+//	{GPIO_ResetBits(GPIOA,GPIO_Pin_2);}	
+//	}
+//}

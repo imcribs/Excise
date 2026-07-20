@@ -21,19 +21,22 @@ int main(void)
     {
 			if(Serial_GetRXFlag() == 1)
 			{
+				OLED_ShowString(2,1,"                ");   
+			      OLED_ShowString(2,1,Serial_RxPacket);
+				
 				if(strcmp(Serial_RxPacket,"LED_ON") == 0)
 				{
-				LED_SET(LED1,LED_ON);
+				LED1_ON();
 					Serial_SendString("LED_ON_OK\r\n");
 						OLED_ShowString(4,1,"                ");   //覆盖上一次串口传输的内容，防止乱码
-			      OLED_ShowString(4,1,Serial_RxPacket);
+			      OLED_ShowString(4,1,"LED_ON_OK");
 				}
 				else if(strcmp(Serial_RxPacket,"LED_OFF") == 0)
 				{
-					LED_SET(LED1,LED_OFF);
+					LED1_OFF();
 					Serial_SendString("LED_OFF_OK\r\n");
 						OLED_ShowString(2,1,"                ");   
-			      OLED_ShowString(2,1,Serial_RxPacket);
+			      OLED_ShowString(2,1,"LED_OFF_OK");
 				}
 				else
 				{

@@ -12,6 +12,11 @@ typedef enum {          //枚举定义LED的状态
 } LED_State;
 void LED_Init(void);
 void LED_SET(LED_Index led,LED_State state);
-
+void LED1_ON(void);
+void LED1_OFF(void);
+void LED1_Turn(void);
+void LED2_ON(void);
+void LED2_OFF(void);
+void LED2_Turn(void);
 
 #endif 
