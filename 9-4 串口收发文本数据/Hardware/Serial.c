@@ -116,16 +116,6 @@ void Serial_printf(char *format,...)
 	va_end(arg);
 	Serial_SendString(String);
 }
-uint8_t Serial_GetRXFlag(void)
-{
-	if(Serial_RXFlag == 1)
-	{
-	Serial_RXFlag = 0;
-		return 1;
-	}
-	return 0;
-}
-
 
 
 void USART1_IRQHandler(void)
@@ -137,7 +127,7 @@ void USART1_IRQHandler(void)
 	uint8_t RXData = USART_ReceiveData(USART1);
 	if(RXState == 0)
 	{
-		if(RXData == '@')
+		if(RXData == '@'&& Serial_RXFlag == 0) //上一次的接收还未完成之前，RXState不置1，即不能继续接收
 		{
 		RXState = 1;
 		cRXPacket = 0;

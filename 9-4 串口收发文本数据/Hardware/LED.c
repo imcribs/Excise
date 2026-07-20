@@ -12,6 +12,8 @@ void LED_Init(void) //初始化按键
 	
 	GPIO_SetBits(GPIOA,GPIO_Pin_1|GPIO_Pin_2);
 }
+//外接高电平，LED是低电平触发
+
 
 void LED1_ON(void)
 {
@@ -62,7 +64,7 @@ void LED2_Turn(void)
 //{
 //	if(led==LED1)
 //	{
-//	if(state==LED_ON){GPIO_SetBits(GPIOA,GPIO_Pin_1);}
+//	if(state==LED_ON){GPIO_RSetBits(GPIOA,GPIO_Pin_1);}
 //	else
 //	{GPIO_ResetBits(GPIOA,GPIO_Pin_1);}	
 //	}
