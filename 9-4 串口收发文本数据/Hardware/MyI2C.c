@@ -49,8 +49,10 @@ void MyI2C_Start(void)
 
 void MyI2C_Stop(void)
 {
+	//终止条件是，在SCL高电平期间，拉高SDA
 	//由于不确定SDA的状态，优先拉低SDA
 	MyI2C_W_SDA(0);
-	MyI2C_W_SCL(0);
+	MyI2C_W_SCL(1);
+	MyI2C_W_SDA(1);
 }
 
