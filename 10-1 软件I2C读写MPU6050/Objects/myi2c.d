@@ -1,4 +1,4 @@
-.\objects\myi2c.o: ..\9-4 串口收发文本数据\Hardware\MyI2C.c
+.\objects\myi2c.o: Hardware\MyI2C.c
 .\objects\myi2c.o: .\Start\stm32f10x.h
 .\objects\myi2c.o: .\Start\core_cm3.h
 .\objects\myi2c.o: D:\Keil5.35\ARM\ARMCC\Bin\..\include\stdint.h
