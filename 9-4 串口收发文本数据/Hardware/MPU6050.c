@@ -1,6 +1,9 @@
 #include "stm32f10x.h"                  // Device header
 #include "MyI2C.h"
-void MPU6050_Init()
+
+void 
+
+void MPU6050_Init(void)
 {
-	My
+	MyI2C_Init();
 }
