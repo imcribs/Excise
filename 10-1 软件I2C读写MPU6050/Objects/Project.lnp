@@ -30,6 +30,7 @@
 ".\objects\key.o"
 ".\objects\oled.o"
 ".\objects\myi2c.o"
+".\objects\mpu6050.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 --strict --scatter ".\Objects\Project.sct"
