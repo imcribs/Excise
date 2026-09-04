@@ -48,7 +48,7 @@ void W25Q64_PageProgram(uint32_t Address,uint8_t *DataArray,uint16_t Count)
 	W25Q64_WriteEnable();
 	
 	MySPI_Start();
-	MySPI_SwapByte(W25Q64_READ_STATUS_REGISTER_1);
+	MySPI_SwapByte(W25Q64_PAGE_PROGRAM);
 	MySPI_SwapByte(Address>>16);
 	MySPI_SwapByte(Address>>8);
 	MySPI_SwapByte(Address);
@@ -57,6 +57,9 @@ void W25Q64_PageProgram(uint32_t Address,uint8_t *DataArray,uint16_t Count)
 	MySPI_SwapByte(DataArray[i]);
 	}
 	MySPI_Stop();
+	
+	W25Q64_WaitBusy();
+	
 }
 
 void W25Q64_SectorErace(uint32_t Address)
@@ -69,6 +72,9 @@ void W25Q64_SectorErace(uint32_t Address)
 	MySPI_SwapByte(Address>>8);
 	MySPI_SwapByte(Address);
 	MySPI_Stop();
+	
+	W25Q64_WaitBusy();
+	
 }
 
 void W25Q64_ReadData(uint32_t Address,uint8_t *DataArray,uint32_t Count)
