@@ -22,7 +22,12 @@ int main(void)
 				RXData = Serial_GetRXData();
 					Serial_SendByte(RXData);  //回传功能，把数据传回电脑
 					OLED_ShowHexNum(1,8,RXData,2);
+					OLED_ShowString(2,1,"Runing");
+					Delay_ms(100);
+					OLED_ShowString(2,1,"      ");
+					Delay_ms(100);
 				}
-          
+				
+				__WFI();
     }
 }
