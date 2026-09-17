@@ -7,20 +7,20 @@
 uint16_t Store_Data[STORE_COUNT];
 
 void Store_Init(void)
-{
+{ 
 	if (MyFLASH_ReadHalfWord(STORE_START_ADDRESS) != 0xA5A5)
 	{
-		MyFLASH_ErasePage(STORE_START_ADDRESS);
+		MyFLASH_ErasePage(STORE_START_ADDRESS);                    //先擦除再写入
 		MyFLASH_ProgramHalfWord(STORE_START_ADDRESS, 0xA5A5);
 		for (uint16_t i = 1; i < STORE_COUNT; i ++)
 		{
-			MyFLASH_ProgramHalfWord(STORE_START_ADDRESS + i * 2, 0x0000);
+			MyFLASH_ProgramHalfWord(STORE_START_ADDRESS + i * 2, 0x0000);  
 		}
 	}
 	
 	for (uint16_t i = 0; i < STORE_COUNT; i ++)
 	{
-		Store_Data[i] = MyFLASH_ReadHalfWord(STORE_START_ADDRESS + i * 2);
+		Store_Data[i] = MyFLASH_ReadHalfWord(STORE_START_ADDRESS + i * 2);  //转存入SRAM
 	}
 }
 
